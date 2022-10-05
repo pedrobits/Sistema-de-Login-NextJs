@@ -19,7 +19,6 @@ export async function signIn( user, password ) {
 
   axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data));
       setCookie(undefined, "nextAuthToken", response.data.token, {
         maxAge: 60 * 60 * 3, //3 Horas
       });
