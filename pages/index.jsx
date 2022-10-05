@@ -1,21 +1,23 @@
 import axios from "axios";
 import Router from "next/router";
-import {parseCookies} from 'nookies'
+import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
-import {signIn} from '../middlewares/authContext'
+import Error from "../src/components/errorType/error";
 import Loading from "../src/components/loading/Loading";
+import { setCookie } from "nookies";
 
 export default function Home() {
   const [user, setUser] = useState();
   const [password, setPassword] = useState();
+  const [bigError, setbigError] = useState("");
   const [removeLoading, setRemoveLoading] = useState(true);
 
   useEffect(() => {
-    const cookies = parseCookies()
-    const Token = cookies.nextAuthToken
-    
-    if(Token != undefined) {
-        Router.push("/home");
+    const cookies = parseCookies();
+    const Token = cookies.nextAuthToken;
+
+    if (Token != undefined) {
+      Router.push("/home");
     }
   }, []);
 
@@ -23,8 +25,37 @@ export default function Home() {
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
-    await signIn(user, password);
-    setRemoveLoading(false)
+    setRemoveLoading(false);
+    signIn(user, password)
+    async function signIn(user, password) {
+      var data = JSON.stringify({
+        user: `${user}`,
+        password: `${password}`,
+      });
+
+      var config = {
+        method: "post",
+        url: "https://agille-cred.herokuapp.com/login",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios(config)
+        .then(function (response) {
+          setCookie(undefined, "nextAuthToken", response.data.token, {
+            maxAge: 60 * 60 * 3, //3 Horas
+          });
+
+          Router.push("/home");
+        })
+        .catch(function (error) {
+          const catchError = error.response.data.message;
+          setbigError(catchError);
+          setRemoveLoading(true);
+        });
+    }
   };
 
   return (
@@ -35,7 +66,9 @@ export default function Home() {
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Entre na sua conta
             </h2>
+            <Error style={"mt-6 text-center font-bold tracking-tight text-xl text-yellow-500"} texto={bigError} />
           </div>
+
           <form
             className="mt-8 space-y-6"
             onSubmit={handleSubmit}
@@ -125,11 +158,10 @@ export default function Home() {
                 Entrar
               </button>
             </div>
-            {!removeLoading && <Loading/>}
+            {!removeLoading && <Loading />}
           </form>
         </div>
       </div>
     </>
   );
-
 }
