@@ -17,7 +17,7 @@ export default function Home() {
     return (
         <>
             <h1>HOME</h1>
-            <a href="/logout">Sair</a>
+            <Link href="/logout">Sair</Link>
         </>
     )
 }
