@@ -3,7 +3,7 @@ import { parseCookies } from "nookies";
 import { useEffect } from 'react';
 import Router from "next/router";
 
-export default function home() {
+export default function Home() {
 
     useEffect(() => {
         const cookies = parseCookies()

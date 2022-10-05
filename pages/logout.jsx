@@ -2,8 +2,8 @@ import { destroyCookie, parseCookies } from "nookies";
 import { useEffect } from "react";
 import Router from "next/router";
 
-export default function logout() {
-  async function fullLogout() {
+export default function Logout() {
+  async function FullLogout() {
     destroyCookie({}, 'nextAuthToken', { path: '/'});
     destroyCookie({}, 'nextAuthToken', { path: '/logout'});
     destroyCookie({}, 'nextAuthToken', { path: '/home'});
@@ -15,7 +15,7 @@ export default function logout() {
   }
 
   useEffect(() => {
-  fullLogout();
+  FullLogout();
   }, []);
 
   return <p>Saindo...</p>;
