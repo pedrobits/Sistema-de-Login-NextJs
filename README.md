@@ -13,3 +13,8 @@ yarn dev
 Abra [http://localhost:3000](http://localhost:3000) Com seu navegador para ver o resultado.
 
 O sistema de login está na rota principal ['/'].
+
+Login para testes:
+
+Login: test
+Senha: test
