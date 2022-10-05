@@ -15,7 +15,7 @@ export default function logout() {
   }
 
   useEffect(() => {
-    fullLogout();
+  fullLogout();
   }, []);
 
   return <p>Saindo...</p>;

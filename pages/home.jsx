@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { parseCookies } from "nookies";
-import { useEffect } from "react"
+import { useEffect } from 'react';
 import Router from "next/router";
 
 export default function home() {
