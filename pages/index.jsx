@@ -3,10 +3,12 @@ import Router from "next/router";
 import {parseCookies} from 'nookies'
 import { useEffect, useState } from "react";
 import {signIn} from '../middlewares/authContext'
+import Loading from "../src/components/loading/Loading";
 
 export default function Home() {
   const [user, setUser] = useState();
   const [password, setPassword] = useState();
+  const [removeLoading, setRemoveLoading] = useState(true);
 
   useEffect(() => {
     const cookies = parseCookies()
@@ -22,6 +24,7 @@ export default function Home() {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
     await signIn(user, password);
+    setRemoveLoading(false)
   };
 
   return (
@@ -122,6 +125,7 @@ export default function Home() {
                 Entrar
               </button>
             </div>
+            {!removeLoading && <Loading/>}
           </form>
         </div>
       </div>

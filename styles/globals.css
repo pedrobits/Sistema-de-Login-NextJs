@@ -28,3 +28,4 @@ a {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '../src/components/loading/Loading.css';
